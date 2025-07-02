@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Redeem Robux</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .robux-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .robux-card {
+      background: #222;
+      padding: 20px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 2px solid #00c851;
+      color: #72ff72;
+      font-weight: bold;
+      font-size: 18px;
+      transition: 0.2s;
+    }
+
+    .robux-card:hover {
+      transform: scale(1.05);
+      background: #333;
+    }
+
+    .robux-card.active {
+      background: #00c851;
+      color: #fff;
+      border-color: #00e676;
+    }
+  </style>
+</head>
+<body>
+  <h2>🤑 Redeem Your Robux</h2>
+  <p>Minimum: 500 Coins</p>
+
+  <input type="text" id="robloxUsername" placeholder="Your Roblox Username">
+
+  <div class="robux-options">
+    <div class="robux-card" data-amount="500">💰 500 Robux</div>
+    <div class="robux-card" data-amount="1000">💰 1000 Robux</div>
+    <div class="robux-card" data-amount="1500">💰 1500 Robux</div>
+    <div class="robux-card" data-amount="2000">💰 2000 Robux</div>
+  </div>
+
+  <br>
+  <button onclick="redeemRobux()">Request Redeem</button>
+  <p id="redeemStatus"></p>
+
+  <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
+  <script>
+    let selectedAmount = null;
+
+    document.querySelectorAll(".robux-card").forEach(card => {
+      card.addEventListener("click", () => {
+        document.querySelectorAll(".robux-card").forEach(c => c.classList.remove("active"));
+        card.classList.add("active");
+        selectedAmount = card.getAttribute("data-amount");
+      });
+    });
+  </script>
+</body>
+</html>

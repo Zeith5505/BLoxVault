@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Robux Click-to-Earn</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🔥 Robux Click-to-Earn 🔥</h1>
+
+  <!-- 🔐 Login/Register Form -->
+  <div id="login-form">
+    <input type="email" id="emailInput" placeholder="Email">
+    <input type="password" id="passInput" placeholder="Password">
+    <br><br>
+    <button id="loginBtn">Login</button>
+    <button id="registerBtn">Register</button>
+  </div>
+
+  <!-- 👤 Logged-in user info -->
+  <div id="user-info"></div>
+
+  <!-- 💰 Coin earning -->
+  <button id="clickBtn">Click to Earn +1 Coin</button>
+  <p>Coins: <span id="coinCount">0</span></p>
+
+  <!-- Navigation -->
+  <button onclick="window.location.href='redeem.html'">Redeem Robux</button>
+  <button onclick="window.location.href='leaderboard.html'">View Leaderboard</button>
+
+  <!-- Scripts -->
+  <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
