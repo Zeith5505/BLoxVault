@@ -55,30 +55,51 @@ document.addEventListener("DOMContentLoaded", () => {
       updateCoins(user.uid);
 
       // 💰 5-second cooldown click logic
-      const clickBtn = document.getElementById("clickBtn");
-      if (clickBtn) {
-        let cooldown = false;
+const clickBtn = document.getElementById("clickBtn");
+if (clickBtn) {
+  let clickCount = 0;
+  let isCooldown = false;
 
-        clickBtn.addEventListener("click", () => {
-          if (cooldown) {
-            alert("Please wait 5 seconds before clicking again.");
-            return;
-          }
+  clickBtn.addEventListener("click", () => {
+    if (isCooldown) {
+      alert("Wait a few seconds before clicking again.");
+      return;
+    }
 
-          const ref = db.ref("users/" + user.uid + "/coins");
-          ref.transaction(coins => (coins || 0) + 1);
+    clickCount++;
+    isCooldown = true;
+    clickBtn.disabled = true;
+    clickBtn.innerText = "Cooldown... ⏳";
 
-          cooldown = true;
-          clickBtn.disabled = true;
-          clickBtn.innerText = "Cooldown... ⏳";
+    // 🕓 Cooldown every click (5 seconds)
+    setTimeout(() => {
+      clickBtn.disabled = false;
+      clickBtn.innerText = "Click to Earn +1 Coin";
+      isCooldown = false;
+    }, 5000);
 
-          setTimeout(() => {
-            cooldown = false;
-            clickBtn.disabled = false;
-            clickBtn.innerText = "Click to Earn +1 Coin";
-          }, 5000); // 5-second cooldown
-        });
-      }
+    // 💥 Force ad every 10th click
+    if (clickCount % 10 === 0) {
+      const adBox = document.createElement("div");
+      adBox.id = "forcedAd";
+      adBox.style.marginTop = "20px";
+      adBox.innerHTML = `
+        <h4 style="color:#ccc;">Watch this to continue</h4>
+        <script type="text/javascript" src="https://YOUR_MONETAG_SCRIPT.js"></script>
+      `;
+      document.body.appendChild(adBox);
+
+      // ⏳ Wait longer if it's ad time
+      setTimeout(() => {
+        document.getElementById("forcedAd")?.remove();
+      }, 20000); // 10 sec for ad
+    }
+
+    // ✅ Earn coin
+    const ref = db.ref("users/" + auth.currentUser.uid + "/coins");
+    ref.transaction(coins => (coins || 0) + 1);
+  });
+}
 
       if (location.pathname.includes("leaderboard")) {
         loadLeaderboard();
